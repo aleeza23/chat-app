@@ -2,7 +2,7 @@ import { FaceGrinning, SearchIcon, Send } from "lucide-react";
 
 const ChatWindowSearchbar = () => {
 	return (
-		<div className="h-19 shrink-0 w-full left-0 bg-background rounded-[25px] flex items-center justify-between px-6 text-[#333333]">
+		<div className="h-19 shrink-0 w-full mt-auto left-0 bg-background rounded-[25px] flex items-center justify-between px-6 text-[#333333]">
 			<div className="flex gap-4 items-center w-full mr-4">
 				<SearchIcon size={32} />
 				<input
