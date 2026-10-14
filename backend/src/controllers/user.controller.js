@@ -54,3 +54,9 @@ export const loginController = async (req, res) => {
 export const authController = (req, res) => {
 	res.status(200).json({ success: true, data: req.user });
 };
+
+export const getUsersController = async (req, res) => {
+	const users = await User.find();
+
+	res.status(200).json({ success: true, data: users });
+};

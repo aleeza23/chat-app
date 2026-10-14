@@ -24,12 +24,12 @@ const styles: Record<MessageType, MessageStyle> = {
 
 const Message = ({
 	type,
-	texts,
+	text,
 	time,
 	mt = 0,
 }: {
 	type: MessageType;
-	texts: string[];
+	text: string;
 	time: string;
 	mt?: number | string;
 }) => {
@@ -37,14 +37,11 @@ const Message = ({
 
 	return (
 		<div className={`flex flex-col ${s.wrap}`} style={{ marginTop: mt }}>
-			{texts.map((t) => (
-				<div
-					key={t}
-					className={`relative h-14.75 px-5 rounded-[25px] flex items-center whitespace-nowrap text-2xl font-normal tracking-[0.4px] [&+div]:mt-3 ${s.bubble}`}
-				>
-					{t}
-				</div>
-			))}
+			<div
+				className={`relative h-14.75 px-5 rounded-[25px] flex items-center whitespace-nowrap text-2xl font-normal tracking-[0.4px] [&+div]:mt-3 ${s.bubble}`}
+			>
+				{text}
+			</div>
 			<span className={`mt-2 font-light text-xl text-[#707070] ${s.time}`}>
 				{time}
 			</span>

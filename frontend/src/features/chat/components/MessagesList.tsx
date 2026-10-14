@@ -1,27 +1,31 @@
+import { User } from "@/types";
 import Message from "./Message";
+import { ChatMessage } from "../types";
 
-const MessagesList = () => {
+interface MessagesListProps {
+	chats: ChatMessage[];
+	user: User | null;
+	isLoading: boolean;
+}
+
+const MessagesList = ({ chats, user, isLoading }: MessagesListProps) => {
+	if (isLoading) {
+		return <p className="text-center">Loading messages...</p>;
+	}
+
 	return (
 		<section className="pt-6 overflow-y-auto min-h-0 pb-20 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-			<Message
-				type="received"
-				texts={["Hey There!", "How are you?"]}
-				time="Today, 8.30pm"
-			/>
-			<Message type="sent" texts={["Hello!"]} time="Today, 8.33pm" mt={21} />
-			<Message
-				type="sent"
-				texts={["I am fine and how are you?"]}
-				time="Today, 8.34pm"
-				mt={20}
-			/>
-			<Message
-				type="received"
-				texts={["I am doing well, Can we meet tomorrow?"]}
-				time="Today, 8.36pm"
-				mt={32}
-			/>
-			<Message type="sent" texts={["Yes Sure!"]} time="Today, 8.58pm" mt={15} />
+			{chats.map((chat) => (
+				<Message
+					key={chat._id}
+					type={chat.sender._id === user?._id ? "sent" : "received"}
+					text={chat.message}
+					time={new Date(chat.createdAt).toLocaleTimeString([], {
+						hour: "numeric",
+						minute: "2-digit",
+					})}
+				/>
+			))}
 		</section>
 	);
 };

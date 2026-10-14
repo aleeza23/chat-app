@@ -1,8 +1,4 @@
-interface EmptyChatProps {
-	onStart: () => void;
-}
-
-const EmptyChat = ({ onStart }: EmptyChatProps) => {
+const EmptyChat = () => {
 	return (
 		<div className="h-full flex flex-col items-center justify-center text-center px-6">
 			{/* icon */}
@@ -29,13 +25,7 @@ const EmptyChat = ({ onStart }: EmptyChatProps) => {
 				No messages yet
 			</h3>
 
-			<button
-				type="button"
-				onClick={onStart}
-				className="bg-primary text-white font-medium text-lg px-10 py-3 rounded-xl hover:opacity-90 active:scale-95 transition-all duration-300 cursor-pointer"
-			>
-				Start chat
-			</button>
+			<p>Your messages will appear here once you start chatting!</p>
 		</div>
 	);
 };
