@@ -1,6 +1,7 @@
 import { User } from "@/types";
 import Message from "./Message";
 import { ChatMessage } from "../types";
+import { useEffect, useRef } from "react";
 
 interface MessagesListProps {
 	chats: ChatMessage[];
@@ -9,12 +10,18 @@ interface MessagesListProps {
 }
 
 const MessagesList = ({ chats, user, isLoading }: MessagesListProps) => {
+	const bottomRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+	}, [chats]);
+
 	if (isLoading) {
 		return <p className="text-center">Loading messages...</p>;
 	}
 
 	return (
-		<section className="pt-6 overflow-y-auto min-h-0 pb-20 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+		<section className="pt-6 overflow-y-auto min-h-0 pb-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
 			{chats.map((chat) => (
 				<Message
 					key={chat._id}
@@ -26,6 +33,7 @@ const MessagesList = ({ chats, user, isLoading }: MessagesListProps) => {
 					})}
 				/>
 			))}
+			<div ref={bottomRef} />
 		</section>
 	);
 };

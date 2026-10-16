@@ -56,7 +56,7 @@ export const authController = (req, res) => {
 };
 
 export const getUsersController = async (req, res) => {
-	const users = await User.find();
+	const users = await User.find({ _id: { $ne: req.user._id } });
 
 	res.status(200).json({ success: true, data: users });
 };

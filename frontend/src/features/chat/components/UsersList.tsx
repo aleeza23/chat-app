@@ -4,16 +4,21 @@ import { User } from "@/types";
 import { cn } from "cn";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { ChatMessage } from "../types";
+import { useSocket } from "@/context/socketContext";
 
 const UsersList = ({
 	activeUser,
 	setActiveUser,
+	chats,
 }: {
 	activeUser: User | null;
 	setActiveUser: (user: User) => void;
+	chats: ChatMessage[];
 }) => {
 	const [users, setUsers] = useState<User[]>([]);
 	const [loading, setLoading] = useState<boolean>();
+	const { socket } = useSocket();
 
 	useEffect(() => {
 		const fetchUsers = async () => {
@@ -32,6 +37,9 @@ const UsersList = ({
 
 	const handleActiveUser = (user: User) => {
 		setActiveUser(user);
+		if (socket) {
+			socket.emit("mark-read", user._id);
+		}
 	};
 
 	console.log(activeUser?._id, "active user id");
@@ -66,7 +74,7 @@ const UsersList = ({
 								<div>
 									<h4 className="font-semibold text-xl">{user.username}</h4>
 									<p className="font-light text-[#303030]">
-										Last message from aleeza
+										{chats.at(-1)?.message}
 									</p>
 								</div>
 							</div>

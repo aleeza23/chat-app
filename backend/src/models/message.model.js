@@ -22,6 +22,7 @@ const messageSchema = new Schema(
 			default: "private",
 			enum: ["private", "group"],
 		},
+		isRead: {type: Boolean, default: false}
 	},
 	{ timestamps: true },
 );

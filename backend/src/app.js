@@ -78,6 +78,25 @@ io.on("connection", (socket) => {
 		}
 	});
 
+	//mark messages read
+	socket.on("mark-read", async (senderId) => {
+		if (!senderId || !socket.userId) return;
+		console.log(senderId, "senderId here");
+
+		try {
+			await Message.updateMany(
+				{
+					sender: senderId,
+					receiver: socket.userId,
+					isRead: false,
+				},
+				{ $set: { isRead: true } },
+			);
+		} catch (error) {
+			console.log("Error in mark-read:", error);
+		}
+	});
+
 	//clean up maps on closing tabs
 	socket.on("disconnect", () => {
 		if (socket.userId) {
