@@ -7,3 +7,9 @@ export interface ChatMessage {
 	message: string;
 	createdAt: string;
 }
+
+export interface UnreadMessage {
+	_id: string;
+	unreadCount: number;
+	lastMessage: string;
+}

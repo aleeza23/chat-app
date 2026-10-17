@@ -22,7 +22,7 @@ const ChatWindow = ({
 		<Card className="relative h-full min-h-0 flex flex-col overflow-hidden">
 			{activeUser ? (
 				<>
-					<ChatWindowHeader activeUser={activeUser} />
+					<ChatWindowHeader activeUser={activeUser}  />
 					<MessagesList chats={chats} user={user} isLoading={isLoading} />
 					<ChatWindowSearchbar activeUser={activeUser} />
 				</>

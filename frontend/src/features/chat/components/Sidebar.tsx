@@ -4,6 +4,7 @@ import { House, LogOut, MessageCircleMore } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/context/authContext";
 
 const navItems = [
 	{ href: "/", icon: House, label: "Home" },
@@ -12,6 +13,7 @@ const navItems = [
 
 const Sidebar = () => {
 	const pathname = usePathname();
+	const {user } = useAuth()
 
 	const isActive = (href: string) =>
 		href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -23,11 +25,12 @@ const Sidebar = () => {
 		>
 			<div className="flex flex-col justify-center items-center gap-12 w-full">
 				<Image
-					src={"/avatar.png"}
+					src={user?.profileUrl || "/avatar.png"}
 					width={78}
 					height={78}
 					alt="avatar"
 					loading="eager"
+					className="rounded-full"
 				/>
 
 				<nav className="flex flex-col items-center mx-auto w-full gap-6 text-white">

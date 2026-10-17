@@ -26,6 +26,8 @@ const userSchema = new Schema(
 			default:
 				"https://img.magnific.com/premium-vector/young-gamer-girl-avatar-streaming-with-pastel-purple-hair-gaming-headset_704771-3476.jpg?semt=ais_hybrid&w=740&q=80",
 		},
+		isOnline: { type: Boolean, default: false },
+		lastSeen: { type: Date, default: null },
 	},
 	{ timestamps: true },
 );
