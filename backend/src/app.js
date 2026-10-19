@@ -19,7 +19,21 @@ const io = new Server(server, {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+const origins = [
+	"http://localhost:3000",
+	"https://chat-app-socketio-01.vercel.app",
+];
+app.use(
+	cors({
+		origin: (origin, callback) => {
+			if (!origin) return callback(null, true);
+			if (origins.includes(origin)) return callback(null, true);
+			return callback(new Error("Not allowed by cors"));
+		},
+
+		credentials: true,
+	}),
+);
 
 // REST APIs
 app.get("/api/health", (req, res) => {
