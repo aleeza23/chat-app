@@ -5,6 +5,7 @@ export interface ChatMessage {
 	sender: User;
 	receiver: User;
 	message: string;
+	isRead: boolean;
 	createdAt: string;
 }
 

@@ -22,6 +22,7 @@ const UsersList = ({
 	isChatsLoading: boolean;
 }) => {
 	const [unreadMessages, setUnreadMessages] = useState<UnreadMessage[]>([]);
+	const { user } = useAuth();
 	const { socket } = useSocket();
 
 	const handleActiveUser = (user: User) => {
@@ -44,6 +45,52 @@ const UsersList = ({
 	useEffect(() => {
 		if (!socket) return;
 
+		const handleMessage = (data: ChatMessage) => {
+			const senderId = String(data.sender._id);
+			const receiverId = String(data.receiver._id);
+
+			if (receiverId !== String(user?._id)) return;
+			if (senderId === String(activeUser?._id)) return;
+			if (data.isRead) return;
+
+			setUnreadMessages((prev) => {
+				const existing = prev.some((u) => String(u._id) === senderId);
+
+				if (!existing && !data.isRead) {
+					return [
+						...prev,
+						{
+							_id: senderId,
+							lastMessage: data.message,
+							unreadCount: 1,
+						},
+					];
+				}
+
+				return prev.map((u) => {
+					if (String(u._id) === senderId && !data.isRead) {
+						return {
+							...u,
+							lastMessage: data.message,
+							unreadCount: u.unreadCount + 1,
+						};
+					}
+
+					return u;
+				});
+			});
+		};
+
+		socket.on("private-message", handleMessage);
+
+		return () => {
+			socket.off("private-message", handleMessage);
+		};
+	}, [socket]);
+
+	useEffect(() => {
+		if (!socket) return;
+
 		const handleReadMessages = (senderId: string) => {
 			setUnreadMessages((prev) => prev.filter((msg) => msg._id !== senderId));
 		};
@@ -54,48 +101,6 @@ const UsersList = ({
 			socket.off("messages-read", handleReadMessages);
 		};
 	}, [socket]);
-
-	useEffect(() => {
-		if (!socket) return;
-
-		const handleNewMessage = (message: ChatMessage) => {
-			const senderId =
-				typeof message.sender === "string"
-					? message.sender
-					: message.sender._id;
-
-			if (senderId === activeUser?._id) return;
-
-			setUnreadMessages((prev) => {
-				const existing = prev.find((msg) => msg._id === senderId);
-
-				if (existing) {
-					return prev.map((msg) =>
-						msg._id === senderId
-							? {
-									...msg,
-									unreadCount: msg.unreadCount + 1,
-									lastMessage: message.message,
-								}
-							: msg,
-					);
-				}
-
-				return [
-					...prev,
-					{ _id: senderId, unreadCount: 1, lastMessage: message.message },
-				];
-			});
-		};
-
-		socket.on("private-message", handleNewMessage);
-
-		return () => {
-			socket.off("private-message", handleNewMessage);
-		};
-	}, [socket, activeUser?._id]);
-
-	console.log(activeUser?._id, "active user id");
 
 	const getUnreadCount = (userId: string) =>
 		unreadMessages.find((msg) => msg._id === userId)?.unreadCount ?? 0;
@@ -110,8 +115,8 @@ const UsersList = ({
 			{isChatsLoading && <p className="text-center font-light">Loading...</p>}
 
 			{/* user */}
-			{users.length === 0 ? (
-				<p className="text-center font-light">No user found</p>
+			{!isChatsLoading && users.length === 0 ? (
+				<p className="text-center font-light">No app user</p>
 			) : (
 				users.map((user) => {
 					const unreadCount = getUnreadCount(user._id);
@@ -146,11 +151,7 @@ const UsersList = ({
 								<div>
 									<h4 className="font-semibold text-xl">{user.username}</h4>
 									<p className="font-light text-[#303030]">
-										{chats.length !== 0
-											? chats.at(-1)?.message
-											: lastMessage
-												? lastMessage
-												: "Start chatting"}
+										{lastMessage ? lastMessage : "Start chatting"}
 									</p>
 								</div>
 							</div>

@@ -17,7 +17,7 @@ const MessagesList = ({ chats, user, isLoading }: MessagesListProps) => {
 	}, [chats]);
 
 	if (isLoading) {
-		return <p className="text-center">Loading messages...</p>;
+		return <p className="text-center mt-10">Loading messages...</p>;
 	}
 
 	return (

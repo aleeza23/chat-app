@@ -16,7 +16,7 @@ const ChatWindow = ({
 	chats: ChatMessage[];
 	isLoading: boolean;
 }) => {
-	const { loading, user } = useAuth();
+	const {  user } = useAuth();
 
 	return (
 		<Card className="relative h-full min-h-0 flex flex-col overflow-hidden">

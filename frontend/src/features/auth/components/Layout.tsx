@@ -10,9 +10,7 @@ const AuthLayout = ({ title, subtitle, children }: AuthLayoutProps) => {
 	return (
 		<div className="min-h-dvh bg-background flex items-center justify-center p-6">
 			<div className="w-full max-w-250 bg-white rounded-[25px] shadow-[0_2px_6px_rgba(130,180,235,0.45)] overflow-hidden grid md:grid-cols-2">
-				{/* left: brand panel */}
 				<div className="hidden md:flex flex-col justify-between bg-primary text-white p-12 relative overflow-hidden">
-					{/* decorative circles */}
 					<div className="absolute -top-24 -right-24 size-72 rounded-full bg-white/10" />
 					<div className="absolute -bottom-32 -left-20 size-80 rounded-full bg-white/10" />
 
@@ -31,7 +29,6 @@ const AuthLayout = ({ title, subtitle, children }: AuthLayoutProps) => {
 							Chat, call and share moments, all in one place.
 						</p>
 
-						{/* mini bubbles, same style as the chat */}
 						<div className="space-y-5 pl-2 pr-3">
 							<div className="relative w-fit h-12 px-6 rounded-full bg-white/20 flex items-center text-lg after:content-[''] after:absolute after:-bottom-1 after:-left-2 after:size-2.25 after:rounded-full after:bg-white/30">
 								Hey there!

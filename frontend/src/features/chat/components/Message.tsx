@@ -38,11 +38,13 @@ const Message = ({
 	return (
 		<div className={`flex flex-col ${s.wrap}`} style={{ marginTop: mt }}>
 			<div
-				className={`relative h-14.75 px-5 rounded-[25px] flex items-center whitespace-nowrap text-2xl font-normal tracking-[0.4px] [&+div]:mt-3 ${s.bubble}`}
+				className={`relative flex min-h-11 max-w-[85%] items-center break-all rounded-[20px] px-4 py-2 text-base font-normal tracking-[0.2px]  md:min-h-13 md:max-w-[75%] md:rounded-[25px] md:px-5 md:text-xl md:tracking-[0.3px] lg:min-h-14.75 lg:max-w-[65%] lg:text-2xl lg:tracking-[0.4px] ${s.bubble}`}
 			>
 				{text}
 			</div>
-			<span className={`mt-2 font-light text-xl text-[#707070] ${s.time}`}>
+			<span
+				className={`mt-1.5 text-xs font-light text-[#707070] md:mt-2 md:text-base lg:text-xl ${s.time}`}
+			>
 				{time}
 			</span>
 		</div>
