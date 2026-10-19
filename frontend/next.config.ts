@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
 	experimental: {
 		agentFeedback: true,
 	},
-  	images: {
+	images: {
 		remotePatterns: [
 			{
 				protocol: "https",
@@ -26,6 +26,15 @@ const nextConfig: NextConfig = {
 				as: "*.css",
 			},
 		},
+	},
+
+	async rewrites() {
+		return [
+			{
+				source: "/api/:path*",
+				destination: `${process.env.API_URL}/:path*`,
+			},
+		];
 	},
 };
 
